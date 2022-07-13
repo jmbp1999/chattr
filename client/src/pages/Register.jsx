@@ -1,12 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import axios from 'axios';
+import 'react-toastify/dist/ReactToastify.css';
+import { registerRoute } from '../utils/ApiRoutes';
 const Register = () => {
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        alert('form');
+    const [values, setValues] = useState({
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    });
+    const toastOptions = {
+        position: 'bottom-right',
+        autoClose: 800,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'dark',
     };
-    const handleChange = (e) => {};
+    const handleValidation = () => {
+        const { password, confirmPassword, username, email } = values;
+        if (password !== confirmPassword) {
+            toast.error('Passwords are not matched to each other!', toastOptions);
+            return false;
+        } else if (username.length < 3) {
+            toast.error('Username should be greater than 3 charactors!', toastOptions);
+            return false;
+        } else if (password.length < 8) {
+            toast.error('Password should be equal or greater than 8 Characters', toastOptions);
+            return false;
+        } else if (email === '') {
+            toast.error('Email is required!', toastOptions);
+            return false;
+        } else {
+            return true;
+        }
+    };
+
+    const handleSubmit = (e) => {
+        console.log(e);
+        e.preventDefault();
+        if (handleValidation()) {
+        } else {
+        }
+    };
+
+    const handleChange = (e) => {
+        setValues({
+            ...values,
+            [e.target.name]: e.target.value,
+        });
+    };
     return (
         <>
             <FormContainer>
@@ -26,6 +71,7 @@ const Register = () => {
                     </span>
                 </form>
             </FormContainer>
+            <ToastContainer />
         </>
     );
 };
