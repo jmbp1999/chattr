@@ -136,29 +136,6 @@ const FormContainer = styled.div`
             outline: none;
         }
     }
-    button {
-        background-color: #4e0eff;
-        color: white;
-        padding: 1rem 2rem;
-        border: none;
-        font-weight: bold;
-        cursor: pointer;
-        border-radius: 0.4rem;
-        font-size: 1rem;
-        text-transform: uppercase;
-        &:hover {
-            background-color: #4e0eff;
-        }
-    }
-    span {
-        color: white;
-        text-transform: uppercase;
-        a {
-            color: #4e0eff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-    }
 `;
 
 export default Register;

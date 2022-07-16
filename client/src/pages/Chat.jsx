@@ -13,12 +13,14 @@ export default function Chat() {
     const [contacts, setContacts] = useState([]);
     const [currentChat, setCurrentChat] = useState(undefined);
     const [currentUser, setCurrentUser] = useState(undefined);
+    const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
         async function getLoggedUser() {
             if (!localStorage.getItem('chat-app-user')) {
                 navigate('/login');
             } else {
                 setCurrentUser(await JSON.parse(localStorage.getItem('chat-app-user')));
+                setIsLoaded(true);
             }
         }
         getLoggedUser();
@@ -39,6 +41,7 @@ export default function Chat() {
         getAllUsers();
     }, [currentUser]);
     const handleChatChange = (chat) => {
+        console.log(chat);
         setCurrentChat(chat);
     };
     return (
@@ -46,8 +49,7 @@ export default function Chat() {
             <Container>
                 <div className='container'>
                     <Contacts contacts={contacts} changeChat={handleChatChange} />
-                    {/* {currentChat === undefined ? <Welcome /> : <ChatContainer currentChat={currentChat} socket={socket} />} */}
-                    <Welcome />
+                    {currentChat === undefined ? <Welcome></Welcome> : <ChatContainer currentChat={currentChat} />}
                 </div>
             </Container>
         </>
