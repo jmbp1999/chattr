@@ -6,6 +6,7 @@ import { allUsersRoute, host } from '../utils/ApiRoutes';
 import ChatContainer from '../components/ChatContainer';
 import Contacts from '../components/Contacts.jsx';
 import Welcome from '../components/Welcome';
+import { io } from 'socket.io-client';
 
 export default function Chat() {
     const navigate = useNavigate();
@@ -25,6 +26,13 @@ export default function Chat() {
         }
         getLoggedUser();
     }, []);
+
+    useEffect(() => {
+        if (currentUser) {
+            socket.current = io(host);
+            socket.current.emit('add-user', currentUser._id);
+        }
+    }, [currentUser]);
 
     useEffect(() => {
         async function getAllUsers() {
@@ -49,7 +57,7 @@ export default function Chat() {
             <Container>
                 <div className='container'>
                     <Contacts contacts={contacts} changeChat={handleChatChange} />
-                    {currentChat === undefined ? <Welcome></Welcome> : <ChatContainer currentChat={currentChat} currentUser={currentUser} />}
+                    {currentChat === undefined ? <Welcome></Welcome> : <ChatContainer currentChat={currentChat} currentUser={currentUser} socket={socket} />}
                 </div>
             </Container>
         </>

@@ -17,7 +17,6 @@ module.exports.login = async (req, res, next) => {
 module.exports.register = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
-        console.log({ username, email, password });
         const usernameCheck = await User.findOne({ username });
         if (usernameCheck) return res.json({ msg: 'Username already used', status: false });
         const emailCheck = await User.findOne({ email });
@@ -57,9 +56,7 @@ module.exports.setAvatar = async (req, res, next) => {
 
 module.exports.getAllUsers = async (req, res, next) => {
     try {
-        console.log(req.body);
         const users = await User.find({ _id: { $ne: req.params.id } }).select(['email', 'username', 'avatarImage', '_id']);
-        console.log(users);
         return res.json(users);
     } catch (ex) {
         next(ex);
